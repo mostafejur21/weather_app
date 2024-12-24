@@ -6,20 +6,8 @@ import 'package:weather_app/provider/weather_provider.dart';
 import 'package:weather_app/widgets/home_container.dart';
 import 'package:intl/intl.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
-
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  @override
-  void initState() {
-    super.initState();
-    final weatherProvider = Provider.of<WeatherProvider>(context, listen: false);
-    weatherProvider.loadWeatherData(23.8103, 90.4125);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +18,18 @@ class _HomeScreenState extends State<HomeScreen> {
             child: CircularProgressIndicator(),
           );
         }
+
         final weather = provider.weatherModel;
+        if (weather == null) {
+          return Center(
+            child: ElevatedButton(
+              onPressed: () {
+                provider.loadWeatherData();
+              },
+              child: const Text('Load Weather Data'),
+            ),
+          );
+        }
         return Container(
           height: double.infinity,
           width: double.infinity,

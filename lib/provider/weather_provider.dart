@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/models/weather_models.dart';
+import 'package:weather_app/services/location_services.dart';
 import 'package:weather_app/services/weather_services.dart';
 
 class WeatherProvider with ChangeNotifier {
   final WeatherServices _weatherServices = WeatherServices();
+  final LocationService _locationService = LocationService();
 
   WeatherModel? _weatherModel;
   bool _isLoading = false;
@@ -11,11 +13,15 @@ class WeatherProvider with ChangeNotifier {
   WeatherModel? get weatherModel => _weatherModel;
   bool get isLoading => _isLoading;
 
-  Future<void> loadWeatherData(double lat, double lng) async {
+  Future<void> loadWeatherData() async {
+    final position = await _locationService.getCurrentLocation();
     _isLoading = true;
     notifyListeners();
     try {
-      final weather = await _weatherServices.getWeather(lat, lng);
+      final weather = await _weatherServices.getWeather(
+        position.latitude,
+        position.longitude,
+      );
       _weatherModel = weather;
       notifyListeners();
     } catch (e) {
