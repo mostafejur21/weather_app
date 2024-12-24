@@ -95,7 +95,7 @@ class HomeScreen extends StatelessWidget {
                     height: 10.h,
                   ),
                   Text(
-                    'Partly Cloudy - H ${weather?.forecast?.forecastday?[0].day?.maxtempC.toString()}° L ${weather?.forecast?.forecastday?[0].day?.avgtempC}°',
+                    '${weather.current?.condition?.text} - H ${weather.forecast?.forecastday?.firstWhere((e) => e.date == DateFormat('yyyy-MM-dd').format(DateTime.now())).day?.maxtempC ?? ''}° FL ${weather.current?.feelslikeC}°',
                     style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w700),
                   ),
                   SizedBox(
