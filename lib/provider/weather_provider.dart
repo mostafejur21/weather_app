@@ -26,8 +26,22 @@ class WeatherProvider with ChangeNotifier {
       notifyListeners();
     } catch (e) {
       print('Error: $e');
+    } finally {
+      _isLoading = false;
+      notifyListeners();
     }
-    _isLoading = false;
-    notifyListeners();
+  }
+
+  Future<void> refreshWeatherData() async {
+    try {
+      _isLoading = true;
+      notifyListeners();
+      await loadWeatherData();
+    } catch (e) {
+      throw e;
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
   }
 }
