@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hive/hive.dart';
 import 'package:weather_app/widgets/home_container.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -11,7 +12,6 @@ class HomeScreen extends StatelessWidget {
       body: Container(
         height: double.infinity,
         width: double.infinity,
-        padding: const EdgeInsets.all(24),
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.centerLeft,
@@ -134,6 +134,7 @@ class HomeScreen extends StatelessWidget {
               SizedBox(
                 height: 200.h,
                 child: ListView.separated(
+                  padding: EdgeInsets.symmetric(horizontal: 20.w),
                   separatorBuilder: (context, index) => SizedBox(width: 10.w),
                   scrollDirection: Axis.horizontal,
                   itemCount: 10,
@@ -210,20 +211,39 @@ class HomeScreen extends StatelessWidget {
                   },
                 ),
               ),
-              const WeatherOverviewContainer(
-                title1: 'Sunrise',
-                value1: '5:00 AM',
-                title2: 'Sunset',
-                value2: '6:00 PM',
-                icon: Icons.wb_sunny_outlined,
-              ),
-              SizedBox(height: 15.h),
-              const WeatherOverviewContainer(
-                title1: 'Visibility',
-                value1: '10 km',
-                title2: 'UV Index',
-                value2: '3',
-                icon: Icons.ac_unit,
+              Container(
+                width: double.infinity,
+                height: 300.h,
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage('assets/images/curve.png'),
+                    fit: BoxFit.fill,
+                  ),
+                ),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 80.h,
+                      ),
+                      const WeatherOverviewContainer(
+                        title1: 'Sunrise',
+                        value1: '5:00 AM',
+                        title2: 'Sunset',
+                        value2: '6:00 PM',
+                        icon: Icons.wb_sunny_outlined,
+                      ),
+                      SizedBox(height: 15.h),
+                      const WeatherOverviewContainer(
+                        title1: 'Visibility',
+                        value1: '10 km',
+                        title2: 'UV Index',
+                        value2: '3',
+                        icon: Icons.ac_unit,
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ],
           ),
