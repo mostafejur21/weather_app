@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/models/weather_models.dart';
 import 'package:weather_app/services/location_services.dart';
+import 'package:weather_app/services/storage_services.dart';
 import 'package:weather_app/services/weather_services.dart';
 
 class WeatherProvider with ChangeNotifier {
   final WeatherServices _weatherServices = WeatherServices();
   final LocationService _locationService = LocationService();
   final TextEditingController searchController = TextEditingController();
+
+  final StorageServices storageServices;
+
+  WeatherProvider({required this.storageServices});
 
   WeatherModel? _weatherModel;
   bool _isLoading = false;
@@ -15,14 +20,50 @@ class WeatherProvider with ChangeNotifier {
   bool get isLoading => _isLoading;
 
   Future<void> loadWeatherData() async {
-    final position = await _locationService.getCurrentLocation();
+    try {
+      _isLoading = true;
+      notifyListeners();
+      _loadOfflineWeatherDate();
+      if (storageServices.shouldUpdate()) {
+        await _fetchWeatherData();
+        storageServices.saveWeatherData(_weatherModel!);
+      }
+      notifyListeners();
+    } catch (e) {
+      print('Error: $e');
+      if (weatherModel == null) {
+        _fetchWeatherData();
+      }
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> _fetchWeatherData() async {
     _isLoading = true;
     notifyListeners();
+    final position = await _locationService.getCurrentLocation();
     try {
       final weather = await _weatherServices.getWeather(
         lat: position.latitude,
         lng: position.longitude,
       );
+      _weatherModel = weather;
+      notifyListeners();
+    } catch (e) {
+      print('Error: $e');
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> _loadOfflineWeatherDate() async {
+    _isLoading = true;
+    notifyListeners();
+    try {
+      final weather = storageServices.getWeatherData();
       _weatherModel = weather;
       notifyListeners();
     } catch (e) {
@@ -52,7 +93,7 @@ class WeatherProvider with ChangeNotifier {
     try {
       _isLoading = true;
       notifyListeners();
-      await loadWeatherData();
+      await _fetchWeatherData();
     } catch (e) {
       throw e;
     } finally {
