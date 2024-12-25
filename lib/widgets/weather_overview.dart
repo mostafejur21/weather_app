@@ -13,6 +13,7 @@ class WeatherOverview extends StatelessWidget {
     return Container(
       width: double.infinity,
       height: 300.h,
+      padding: const EdgeInsets.all(16),
       decoration: const BoxDecoration(
         image: DecorationImage(
           image: AssetImage('assets/images/curve.png'),

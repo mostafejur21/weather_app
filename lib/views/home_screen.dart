@@ -65,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         LocationSearchBar(provider: weatherProvider),
                         WeatherLocation(weather: weather),
                         CurrentWeatherDisplay(provider: weatherProvider, weather: weather),
-                        WeatherCondition(weather: weather),
+                        WeatherCondition(weather: weather, provider: weatherProvider),
                         WeatherForecast(
                             filteredHours: filteredHours, currentHour: currentHour, provider: weatherProvider),
                         WeatherOverview(weather: weather),

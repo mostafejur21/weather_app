@@ -61,6 +61,12 @@ class WeatherProvider with ChangeNotifier {
     }
   }
 
+  bool isCelcius = true;
+  void toggleWeatherUnitCelciusToFahrenheit() {
+    isCelcius = !isCelcius;
+    notifyListeners();
+  }
+
   String getWeatherIcon(String condition) {
     switch (condition) {
       case 'Sunny':

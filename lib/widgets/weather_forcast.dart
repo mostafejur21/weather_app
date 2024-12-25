@@ -70,7 +70,7 @@ class WeatherForecast extends StatelessWidget {
                         ),
                         SizedBox(height: 8.h),
                         Text(
-                          '${hourData.tempC?.toString() ?? ''} °',
+                          '${provider.isCelcius ? hourData.tempC : hourData.tempF} °',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Colors.white,

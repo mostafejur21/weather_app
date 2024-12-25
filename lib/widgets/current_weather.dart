@@ -22,7 +22,7 @@ class CurrentWeatherDisplay extends StatelessWidget {
         SizedBox(width: 20.w),
         Flexible(
           child: Text(
-            '${weather?.current?.tempC.toString()}°',
+            '${provider.isCelcius ? weather?.current?.tempC : weather?.current?.tempF}°',
             style: TextStyle(color: Colors.white, fontSize: 80.sp, fontWeight: FontWeight.w700),
           ),
         ),
