@@ -60,4 +60,29 @@ class WeatherProvider with ChangeNotifier {
       notifyListeners();
     }
   }
+
+  String getWeatherIcon(String condition) {
+    switch (condition) {
+      case 'Sunny':
+        return "assets/icons/sun.png";
+      case 'Clear':
+        return "assets/icons/sun.png";
+      case 'Clouds':
+        return "assets/icons/sun-clouds.png";
+      case 'Rain':
+        return "assets/icons/sun-clouds-rain.png";
+      case 'Snow':
+        return "assets/icons/clouds-snow.png";
+      case 'Fog':
+        return "assets/icons/clouds-snow.png";
+      case 'Mist':
+        return "assets/icons/clouds-snow.png";
+      case 'Haze':
+        return "assets/icons/clouds-snow.png";
+      case 'Thunderstorm':
+        return "assets/icons/clouds-snow.png";
+      default:
+        return "assets/icons/clouds-snow.png";
+    }
+  }
 }
