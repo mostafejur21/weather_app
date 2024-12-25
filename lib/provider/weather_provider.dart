@@ -108,6 +108,20 @@ class WeatherProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  String uvIndexRiskLevel(double uvIndex) {
+    if (uvIndex <= 2) {
+      return '${uvIndex.toInt()} Low';
+    } else if (uvIndex <= 5) {
+      return '${uvIndex.toInt()} Moderate';
+    } else if (uvIndex <= 7) {
+      return '${uvIndex.toInt()} High';
+    } else if (uvIndex <= 10) {
+      return '${uvIndex.toInt()} Very High';
+    } else {
+      return '${uvIndex.toInt()} Extreme';
+    }
+  }
+
   String getWeatherIcon(String condition) {
     switch (condition) {
       case 'Sunny':

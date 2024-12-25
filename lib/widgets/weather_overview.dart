@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:weather_app/models/weather_models.dart';
+import 'package:weather_app/provider/weather_provider.dart';
 import 'package:weather_app/widgets/home_container.dart';
 
 class WeatherOverview extends StatelessWidget {
   final WeatherModel? weather;
+  final WeatherProvider provider;
 
-  const WeatherOverview({super.key, required this.weather});
+  const WeatherOverview({super.key, required this.weather , required this.provider});
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +36,7 @@ class WeatherOverview extends StatelessWidget {
             SizedBox(height: 15.h),
             WeatherOverviewContainer(
               title1: 'Uv Index',
-              value1: weather?.current?.uv.toString() ?? '',
+              value1: provider.uvIndexRiskLevel((weather?.current?.uv ?? 0).toDouble()),
               title2: 'wind',
               value2: "${weather?.current?.windKph.toString()} km/h",
               icon: Icons.ac_unit,

@@ -74,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   CurrentWeatherDisplay(provider: weatherProvider, weather: weather),
                   WeatherCondition(weather: weather, provider: weatherProvider),
                   WeatherForecast(filteredHours: filteredHours, currentHour: currentHour, provider: weatherProvider),
-                  WeatherOverview(weather: weather),
+                  WeatherOverview(weather: weather, provider: weatherProvider),
                 ],
               ),
             ),
@@ -83,8 +83,4 @@ class _HomeScreenState extends State<HomeScreen> {
       }),
     );
   }
-  // Future<void> _loadWeatherData(BuildContext context) async {
-  //   final provider = Provider.of<WeatherProvider>(context, listen: false);
-  //   await provider.loadWeatherData();
-  // }
 }
