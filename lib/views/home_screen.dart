@@ -5,9 +5,14 @@ import 'package:weather_app/provider/weather_provider.dart';
 import 'package:weather_app/widgets/home_container.dart';
 import 'package:intl/intl.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,12 +25,6 @@ class HomeScreen extends StatelessWidget {
               );
             }
             return Consumer<WeatherProvider>(builder: (context, provider, child) {
-              if (provider.isLoading) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-
               final weather = provider.weatherModel;
               if (weather == null) {
                 return const Center(
@@ -51,8 +50,49 @@ class HomeScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         SizedBox(height: kTextTabBarHeight.h),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+                          child: Container(
+                            height: 50.h,
+                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.3),
+                              borderRadius: BorderRadius.circular(100),
+                            ),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: TextFormField(
+                                    controller: provider.searchController,
+                                    decoration: const InputDecoration(
+                                      hintText: 'Enter city name',
+                                      hintStyle: TextStyle(color: Colors.white),
+                                      contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                                      border: InputBorder.none,
+                                    ),
+                                    style: const TextStyle(color: Colors.white, fontSize: 18),
+                                    onTapOutside: (event) {
+                                      FocusScope.of(context).unfocus();
+                                    },
+                                    onFieldSubmitted: (value) {
+                                      provider.searchWeatherWithCityName(value).then((value) {
+                                        provider.searchController.clear();
+                                      });
+                                    },
+                                  ),
+                                ),
+                                IconButton(
+                                  onPressed: () {
+                                    provider.searchWeatherWithCityName(provider.searchController.text);
+                                  },
+                                  icon: const Icon(Icons.search, color: Colors.white),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                         Text(
-                          weather?.location?.name ?? '',
+                          weather.location?.name ?? '',
                           textAlign: TextAlign.center,
                           style: const TextStyle(color: Colors.white, fontSize: 30, fontWeight: FontWeight.w700),
                         ),
@@ -66,7 +106,7 @@ class HomeScreen extends StatelessWidget {
                               size: 20,
                             ),
                             Text(
-                              weather?.location?.name ?? '',
+                              weather.location?.name ?? '',
                               style: const TextStyle(color: Colors.white, fontSize: 12),
                             ),
                           ],

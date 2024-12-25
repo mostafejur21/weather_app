@@ -6,6 +6,7 @@ import 'package:weather_app/services/weather_services.dart';
 class WeatherProvider with ChangeNotifier {
   final WeatherServices _weatherServices = WeatherServices();
   final LocationService _locationService = LocationService();
+  final TextEditingController searchController = TextEditingController();
 
   WeatherModel? _weatherModel;
   bool _isLoading = false;
@@ -19,9 +20,24 @@ class WeatherProvider with ChangeNotifier {
     notifyListeners();
     try {
       final weather = await _weatherServices.getWeather(
-        position.latitude,
-        position.longitude,
+        lat: position.latitude,
+        lng: position.longitude,
       );
+      _weatherModel = weather;
+      notifyListeners();
+    } catch (e) {
+      print('Error: $e');
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> searchWeatherWithCityName(String cityName) async {
+    try {
+      _isLoading = true;
+      notifyListeners();
+      final weather = await _weatherServices.getWeather(cityName: cityName);
       _weatherModel = weather;
       notifyListeners();
     } catch (e) {

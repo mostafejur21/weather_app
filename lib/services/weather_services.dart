@@ -5,9 +5,10 @@ import 'package:weather_app/models/weather_models.dart';
 import 'package:http/http.dart' as http;
 
 class WeatherServices {
-  Future<WeatherModel> getWeather(double lat, double lng) async {
-    final response = await http
-        .get(Uri.parse('${AppConstants.BASE_URL}/forecast.json?key=${AppConstants.API_KEY}&q=$lat,$lng&days=3'));
+  Future<WeatherModel> getWeather({double? lat, double? lng, String? cityName}) async {
+    final response = await http.get(Uri.parse(cityName == null
+        ? '${AppConstants.BASE_URL}/forecast.json?key=${AppConstants.API_KEY}&q=$lat,$lng&days=3'
+        : '${AppConstants.BASE_URL}/forecast.json?key=${AppConstants.API_KEY}&q=$cityName&days=3'));
     try {
       if (response.statusCode == 200) {
         try {
