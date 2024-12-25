@@ -4,7 +4,7 @@ Flutter app that displays the weather for current location or given city.
 
 ## App Download link
 
-[Download the app](https://drive.google)
+[Download the app](https://drive.google.com/file/d/1gP6tCQjoWZPaGwRmgDOgpDup2AtH4zil/view?usp=sharing)
 
 ## Description
 
@@ -61,6 +61,14 @@ flutter pub get
 ```bash
 flutter run
 ```
+
+## Screenshots
+## Features of the app With Screenshots
+
+| Task                | Screenshot                                  | Task                | Screenshot                                  |
+|---------------------|--------------------------------------------|---------------------|--------------------------------------------|
+Location Permission| ![Location Permission](screenshots/location_permission.png) | Home| ![Home](screenshots/home_screen.png)    |
+| C/F | ![C/F](screenshots/farenhait.png) | Forcast | ![Forcast](screenshots/forcast.png)
 
 ## Used packages
 
