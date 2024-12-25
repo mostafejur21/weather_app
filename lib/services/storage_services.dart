@@ -11,7 +11,6 @@ class StorageServices {
     await box.put(lastUpdate, DateTime.now().toIso8601String());
   }
 
-
   WeatherModel? getWeatherData() {
     final box = Hive.box(weatherBox);
     return box.get("currentWeather");
@@ -28,5 +27,7 @@ class StorageServices {
     return currentDate.difference(lastUpdateDate).inMinutes > 30;
   }
 
-  initialize() {}
+  Future<void> initialize() async {
+    await Hive.openBox(weatherBox);
+  }
 }
